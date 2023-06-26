@@ -54,15 +54,6 @@ public class Main {
         search.printMatchingLines(term, strategy);
     }
 
-    @Deprecated
-    public static void repeatSearches(Search search) {
-        System.out.println("Enter the number of search queries:");
-        int queries = getNumberFromInput();
-        for (int i = 0; i < queries; i++) {
-            searchForTerm(search);
-        }
-    }
-
     public static String[] getLinesFromFile(String path) {
         // return all lines in a file as a String array
         File file = new File(path);

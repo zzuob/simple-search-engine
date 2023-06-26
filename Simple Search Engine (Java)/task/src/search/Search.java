@@ -16,7 +16,7 @@ public class Search {
 
     public void buildInvertedIndex() {
         for (int i = 0; i < entries.length; i++) {
-            for (String word: entries[i].split("\\s+")) {
+            for (String word : entries[i].split("\\s+")) {
                 List<Integer> linesFound = invertedIndex.get(word.toLowerCase());
                 if (linesFound == null) {
                     linesFound = new ArrayList<>(); // create a new list of line indexes for the word
@@ -30,7 +30,7 @@ public class Search {
     public void printMatchingLines(String term, Mode mode) {
         updateMatches(term, mode);
         if (matches != null) {
-            for (Integer index: matches) {
+            for (Integer index : matches) {
                 System.out.println(entries[index]);
             }
         } else {
@@ -40,9 +40,10 @@ public class Search {
     }
 
     public void updateMatches(String term, Mode mode) {
+        // update matches for a given search term and mode
         String[] terms = term.split("\\s+");
         Set<Integer> indexes = new HashSet<>();
-        for (String thisTerm: terms) {
+        for (String thisTerm : terms) {
             List<Integer> termIndexes = invertedIndex.get(thisTerm.toLowerCase());
             if (termIndexes != null) {
                 if (indexes.isEmpty()) { // first iteration with matches found
@@ -60,7 +61,7 @@ public class Search {
             // i.e. all indexes not containing the search terms
             Set<Integer> allIndexes = new HashSet<>();
             int[] allLines = IntStream.range(0, entries.length).toArray();
-            for (int line: allLines) {
+            for (int line : allLines) {
                 allIndexes.add(line);
             }
             allIndexes.removeAll(indexes);
@@ -71,49 +72,9 @@ public class Search {
 
     public void printAllEntries() {
         System.out.println("=== List of entries ===");
-        for (String entry: entries) {
+        for (String entry : entries) {
             System.out.println(entry);
         }
     }
-
-    public List<Integer> getIndexOfMatching(String term) {
-        List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < entries.length; i++) {
-            if (entries[i].toLowerCase().contains(term.toLowerCase())) {
-                indexes.add(i);
-            }
-        }
-        return indexes;
-    }
-
-    @Deprecated
-    public void printMatchingEntries(String term) {
-        List<Integer> matches = getIndexOfMatching(term);
-        if (matches.isEmpty()) {
-            System.out.println("No matches found.");
-        } else {
-            for (Integer match : matches) {
-                System.out.println(entries[match]);
-            }
-        }
-    }
-
-    @Deprecated
-    public static int findElementsInArray(String term, String text) {
-        if (text.contains(term)) {
-            String[] array = text.split(" ");
-            String[] terms = term.split(" ");
-            for (int i = 0; i < array.length; i++) {
-                for (int j = 0; j < terms.length; j++) {
-                     if (!Objects.equals(terms[j], array[i+j]) || i + terms.length > array.length) {
-                         break;
-                     }
-                     if (j == terms.length - 1) {
-                         return i;
-                     }
-                }
-            }
-        }
-        return -1;
-    }
 }
+
